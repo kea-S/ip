@@ -2,5 +2,6 @@ public enum Commands {
   list,
   mark,
   unmark,
-  bye
+  bye,
+  normal
 }
