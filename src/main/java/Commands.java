@@ -3,5 +3,8 @@ public enum Commands {
   mark,
   unmark,
   bye,
+  todo,
+  deadline,
+  event,
   normal
 }

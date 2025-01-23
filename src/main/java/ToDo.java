@@ -1,16 +1,12 @@
-public abstract class Task {
-  private String taskName;
-  private boolean marked;
+public class ToDo extends Task {
 
-  public Task(String taskName) {
-    this.taskName = taskName;
-    this.marked = false;
+  public ToDo(String inputText) {
+    super(inputText);
   }
 
   @Override
   public String toString() {
-    String checkbox = this.marked ? "[X] " : "[ ] ";
-    return checkbox + this.taskName;
+    return "[T]" + super.toString();
   }
 
 }

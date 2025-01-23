@@ -13,17 +13,10 @@ public class Interaction {
   public void start() {
     while (true) {
       String currUserInputText = this.userInputScanner.nextLine();
+
+      // get the first word
       Scanner extractor = new Scanner(currUserInputText);
-
       String keyword = extractor.next();
-      // Check if the next token is an integer
-      int intParameters = -1;
-      if (extractor.hasNextInt()) {
-        intParameters = extractor.nextInt();
-      }         
-
-      // Free memory
-      extractor.close();
 
       // Attempt to match the keyword with a command
       Commands command;
@@ -37,28 +30,62 @@ public class Interaction {
       switch (command) {
         case list:
         System.out.println(list.toString());
-        continue;
+        break;
+
         case mark:
-        if (this.list.markTask(intParameters)) {
-          System.out.println("\nShep says he's marked:\n   " + list.get(intParameters).toString() + "\n");
+        int markIndex = -1;
+        if (extractor.hasNextInt()) {
+          markIndex = extractor.nextInt();
         }
-        continue;
+
+        if (this.list.markTask(markIndex)) {
+          System.out.println("\nShep says he's marked:\n   " + list.get(markIndex).toString() + "\n");
+        }
+
+        break;
+
         case unmark:
-        if (this.list.unmarkTask(intParameters)) {
-          System.out.println("\nShep says he's unmarked:\n   " + list.get(intParameters).toString() + "\n");
+        int unmarkIndex = -1;
+        if (extractor.hasNextInt()) {
+          unmarkIndex = extractor.nextInt();
         }
-        continue;
+
+        if (this.list.unmarkTask(unmarkIndex)) {
+          System.out.println("\nShep says he's unmarked:\n   " + list.get(unmarkIndex).toString() + "\n");
+        }
+        break;
+
+        case todo:
+        Task currToDo = new ToDo(currUserInputText);
+        if (this.list.add(currToDo)) {
+          System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+        }
+        break;
+
+        case event:
+        Task currEvent = new Event(currUserInputText);
+        if (this.list.add(currEvent)) {
+          System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+        }
+        break;
+
+        case deadline:
+        Task currDeadline = new Deadline(currUserInputText);
+        if (this.list.add(currDeadline)) {
+          System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+        }
+        break;
+
+        default:
+        System.out.println("\nadd a valid task type\n");
+        break;
+
         case bye:
         // Break the loop to exit
+        extractor.close();
         return;
-        default:
-        // If no valid command is matched, treat it as a task
-        Task currTask = new Task(currUserInputText);
-        if (this.list.add(currTask)) {
-          System.out.println("\nShep says he's added:\n   " + currUserInputText + "\n");
-        }
-        continue;
       }
+      extractor.close();
 
     }
   }
