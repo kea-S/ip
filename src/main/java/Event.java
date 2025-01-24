@@ -8,15 +8,16 @@ public class Event extends Task {
     int fromIndex = inputText.indexOf("/from");
     int toIndex = inputText.indexOf("/to");
 
-    // Check if both "/from" and "/to" are found
     if (fromIndex != -1 && toIndex != -1) {
       // Extract the "from" part
       String fromPart = inputText.substring(fromIndex + 6, toIndex).trim(); // +6 to skip "/from "
       // Extract the "to" part
       String toPart = inputText.substring(toIndex + 4).trim(); // +4 to skip "/to "
-      // Format the result
       this.eventStartEnd = " (from: " + fromPart + " to: " + toPart + ")";
+    } else {
+      throw new IllegalArgumentException("The start and end of the deadline need to be specified with /");
     }
+
   }
 
   @Override

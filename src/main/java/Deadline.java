@@ -12,7 +12,10 @@ public class Deadline extends Task {
       String byPart = inputText.substring(byIndex + 4).trim(); // +4 to skip "/by "
       // Format the result
       this.deadlineDate = " (by: " + byPart + ")";
+    } else {
+      throw new IllegalArgumentException("The end of the deadline must be specified with a /");
     }
+
   }
 
   @Override
