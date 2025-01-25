@@ -6,5 +6,6 @@ public enum Commands {
   todo,
   deadline,
   event,
+  delete,
   normal
 }

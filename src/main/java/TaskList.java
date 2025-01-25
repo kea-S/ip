@@ -9,6 +9,11 @@ public class TaskList extends ArrayList<Task> {
     return super.get(index - 1);
   }
 
+  @Override
+  public Task remove(int index) {
+    return super.remove(index - 1);
+  }
+
   public boolean markTask(int index) {
     this.get(index).markAsDone();
     return true;

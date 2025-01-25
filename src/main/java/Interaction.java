@@ -56,6 +56,17 @@ public class Interaction {
           }
           break;
 
+          case delete:
+          int deleteIndex = -1;
+          if (extractor.hasNextInt()) {
+            deleteIndex = extractor.nextInt();
+          }
+
+          Task removed = this.list.remove(deleteIndex);
+          System.out.println("\nShep says he's deleted:\n   " + removed.toString() + "\n");
+          break;
+
+
           case todo:
           Task currToDo = new ToDo(currUserInputText);
           if (this.list.add(currToDo)) {
