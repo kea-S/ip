@@ -1,96 +1,54 @@
 import java.util.Scanner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Interaction {
-  Scanner userInputScanner;
-  TaskList list;
+    TaskList list;
+    Path filePath;
 
-  // constructor
-  public Interaction() {
-    this.userInputScanner = new Scanner(System.in);
-    this.list = new TaskList();
-  }
+    public Interaction() {
+        this.list = new TaskList();
 
-  public void start() {
-    while (true) {
-      String currUserInputText = this.userInputScanner.nextLine();
-
-      // get the first word
-      Scanner extractor = new Scanner(currUserInputText);
-      String keyword = extractor.next();
-
-      // Attempt to match the keyword with a command
-      Commands command;
-      try {
-        command = Commands.valueOf(keyword);
-      } catch (IllegalArgumentException e) {
-        // If the keyword does not match any command, go to default
-        command = Commands.normal;
-      }
-
-      try {
-        switch (command) {
-          case list:
-          System.out.println(list.toString());
-          break;
-
-          case mark:
-          int markIndex = -1;
-          if (extractor.hasNextInt()) {
-            markIndex = extractor.nextInt();
-          }
-
-          if (this.list.markTask(markIndex)) {
-            System.out.println("\nShep says he's marked:\n   " + list.get(markIndex).toString() + "\n");
-          }
-
-          break;
-
-          case unmark:
-          int unmarkIndex = -1;
-          if (extractor.hasNextInt()) {
-            unmarkIndex = extractor.nextInt();
-          }
-
-          if (this.list.unmarkTask(unmarkIndex)) {
-            System.out.println("\nShep says he's unmarked:\n   " + list.get(unmarkIndex).toString() + "\n");
-          }
-          break;
-
-          case todo:
-          Task currToDo = new ToDo(currUserInputText);
-          if (this.list.add(currToDo)) {
-            System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
-          }
-          break;
-
-          case event:
-          Task currEvent = new Event(currUserInputText);
-          if (this.list.add(currEvent)) {
-            System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
-          }
-          break;
-
-          case deadline:
-          Task currDeadline = new Deadline(currUserInputText);
-          if (this.list.add(currDeadline)) {
-            System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
-          }
-          break;
-
-          default:
-          System.out.println("\nShep says that this command is inalid man, try again.\n");
-          break;
-
-          case bye:
-          // Break the loop to exit
-          extractor.close();
-          return;
+        // load or initialise data directory
+        Path dataDirectoryPath = Paths.get("../data");
+        if (!Files.exists(dataDirectoryPath)) {
+            try {
+                Files.createDirectories(dataDirectoryPath);
+                System.out.println("I noticed that this is the first time we're talking," +
+                    "so I've made a directory to store our tasks - ");
+            } catch (IOException e) {
+                System.out.println("Directory not created");
+                e.printStackTrace();
+            }
         }
-        extractor.close();
-      } catch (IllegalArgumentException e) {
-        System.out.println(e);
-      }
+
+        // initialise data file if not there
+        Path dataFilePath = Paths.get("../data/Shep.txt");
+        if (!Files.exists(dataFilePath)) {
+            try {
+                Files.createFile(dataFilePath);
+                System.out.println("As well as the file to store our tasks! \n");
+            } catch (IOException e) {
+                System.out.println("File not created");
+                e.printStackTrace();
+            }
+        } 
+        this.filePath = dataFilePath;
+
+        // read the file
+        this.list.readFile(dataFilePath);
     }
-  }
+
+    public void start() {
+        Scanner userInputScanner = new Scanner(System.in);
+        boolean saidBye = false;
+        while (!saidBye) {
+            String currUserInputText = userInputScanner.nextLine();
+            saidBye = Commands.executeCommand(currUserInputText, this.list, this.filePath, true);
+        }
+        userInputScanner.close();
+    }
 
 }

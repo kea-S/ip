@@ -1,0 +1,2 @@
+todo killself | false
+deadline killself /by today | false
