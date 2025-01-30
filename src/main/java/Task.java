@@ -1,6 +1,5 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
 
 public abstract class Task {
     private String taskName;
@@ -49,8 +48,8 @@ public abstract class Task {
         return checkbox + this.taskName;
     }
 
-    public void save(Path filePath) {
-        try (FileWriter fw = new FileWriter(filePath.toString(), true)) {
+    public void saveInto(Storage storage) {
+        try (FileWriter fw = new FileWriter(storage.toString(), true)) {
 			fw.write(this.saveFormat + System.lineSeparator());
 			fw.close();
 		} catch (IOException e) {

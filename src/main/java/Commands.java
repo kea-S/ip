@@ -12,7 +12,7 @@ public enum Commands {
     delete,
     normal;
 
-    public static boolean executeCommand(String inputText, TaskList list, Path filePath, boolean printTaskAdded) {
+    public static boolean executeCommand(String inputText, TaskList list, boolean printTaskAdded) {
         // get the first word
         Scanner extractor = new Scanner(inputText);
         String keyword = extractor.next();
@@ -98,9 +98,6 @@ public enum Commands {
                 break;
 
                 case bye:
-                // save the taskList
-                list.writeToFile(filePath);
-
                 // Break the loop to exit
                 extractor.close();
                 return true;
