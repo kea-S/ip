@@ -1,9 +1,6 @@
 package shep.task;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class TaskList extends ArrayList<Task> {
     // do this so that zero indexing and task list numbers

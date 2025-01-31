@@ -98,7 +98,7 @@ public enum Commands {
                 break;
 
                 default:
-                System.out.println("\nShep says that command is inalid man, try again.\n");
+                System.out.println("\nShep says that command is invalid man, try again.\n");
                 break;
 
                 case bye:
