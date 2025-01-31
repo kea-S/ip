@@ -1,5 +1,9 @@
+package shep.task;
+
 import java.io.FileWriter;
 import java.io.IOException;
+
+import shep.storage.Storage;
 
 public abstract class Task {
     private String taskName;

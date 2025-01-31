@@ -1,3 +1,5 @@
+package shep.storage;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
@@ -5,6 +7,10 @@ import java.nio.file.Files;
 import java.util.List;
 import java.io.FileWriter;
 import java.util.Iterator;
+
+import shep.task.TaskList;
+import shep.task.Task;
+import shep.command.Commands;
 
 public class Storage {
     private Path filePath;
