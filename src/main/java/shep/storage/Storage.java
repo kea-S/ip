@@ -22,7 +22,7 @@ public class Storage {
             try {
                 Files.createDirectories(dataDirectoryPath);
                 System.out.println("I noticed that this is the first time we're talking," +
-                    "so I've made a directory to store our tasks - ");
+                        "so I've made a directory to store our tasks - ");
             } catch (IOException e) {
                 System.out.println("Directory not created");
                 e.printStackTrace();
@@ -39,7 +39,7 @@ public class Storage {
                 System.out.println("File not created");
                 e.printStackTrace();
             }
-        } 
+        }
 
         this.filePath = dataFilePath;
     }
