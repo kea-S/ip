@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import shep.storage.Storage;
 
+/**
+ * Represents a task tracked by Shep.
+ */
 public abstract class Task {
     private String taskName;
     private boolean marked;
@@ -34,12 +37,22 @@ public abstract class Task {
         this.taskName = taskName;
     }
 
+    /**
+     * Marks this task as done.
+     * 
+     * @return true if succesfully marked, else false
+     */
     public boolean markAsDone() {
         this.marked = true;
         this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
         return true;
     }
 
+    /**
+     * Marks this task as not done.
+     * 
+     * @return true if succesfully marked, else false
+     */
     public boolean unmark() {
         this.marked = false;
         this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
@@ -52,6 +65,12 @@ public abstract class Task {
         return checkbox + this.taskName;
     }
 
+    /**
+     * Saves this task into a storage file.
+     * 
+     * @param storage The {@link Storage} file to be saved into.
+     * @see Storage
+     */
     public void saveInto(Storage storage) {
         try (FileWriter fw = new FileWriter(storage.toString(), true)) {
 			fw.write(this.saveFormat + System.lineSeparator());

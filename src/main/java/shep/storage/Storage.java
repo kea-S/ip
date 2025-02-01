@@ -12,6 +12,10 @@ import shep.task.TaskList;
 import shep.task.Task;
 import shep.command.Commands;
 
+/**
+ *  Represents the storage file containing saved {@link Task}s.
+ *  A <code>Storage</code> object points to the file Shep.txt under directory ../data/
+ */
 public class Storage {
     private Path filePath;
 
@@ -44,6 +48,13 @@ public class Storage {
         this.filePath = dataFilePath;
     }
 
+    /**
+     * Adds saved {@link Task}s in the storage file to the specified {@link TaskList} taskList.
+     * Mutates specified {@link TaskList} taskList.
+     *
+     * @param tasklist The {@link TaskList} to be written into.
+     * @see Task
+    */
     public void writeInto(TaskList tasklist) {
         // load filePath contents as a string
         List<String> fileContents = null;
@@ -79,6 +90,12 @@ public class Storage {
 
     }
 
+    /**
+     * Saves {@link Task}s in the {@link TaskList} taskList into the storage file.
+     *
+     * @param tasklist The {@link TaskList} to be read from.
+     * @see Task
+    */
     public void readFrom(TaskList tasklist) {
         // overwrite previous taskList to be empty, no need to add anything to the file
         try (FileWriter fileWriter = new FileWriter(this.toString(), false)) {

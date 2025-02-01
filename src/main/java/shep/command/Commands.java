@@ -5,6 +5,10 @@ import java.util.Scanner;
 
 import shep.task.*;
 
+/*
+ * Represents the parser for Shep, parsing user CLI input text.
+ * Contains all recognised commands recognised by Shep at its current version.
+ */
 public enum Commands {
     list,
     mark,
@@ -16,6 +20,16 @@ public enum Commands {
     delete,
     normal;
 
+    /**
+     * Parses user CLI input text and executes corresponding command.
+     * If the command is invalid, prompt user to retry.
+     * If the command include {@link String} "bye", return true.
+     * 
+     * @param inputText Input text from the CLI to be parsed.
+     * @param list {@link TaskList} to be modified by a command execution.
+     * @param printTaskAdded Whether or not to output to the CLI Shep's messages on execution of commands that modify the list.
+     * @return true if the inputText given is bye. Else false.
+     */
     public static boolean executeCommand(String inputText, TaskList list, boolean printTaskAdded) {
         // get the first word
         Scanner extractor = new Scanner(inputText);
