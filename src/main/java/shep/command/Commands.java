@@ -3,7 +3,11 @@ package shep.command;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-import shep.task.*;
+import shep.task.TaskList;
+import shep.task.Task;
+import shep.task.ToDo;
+import shep.task.Event;
+import shep.task.Deadline;
 
 public enum Commands {
     list,
@@ -32,11 +36,11 @@ public enum Commands {
 
         try {
             switch (command) {
-                case list:
+            case list:
                 System.out.println(list.toString());
                 break;
 
-                case mark:
+            case mark:
                 int markIndex = -1;
                 if (extractor.hasNextInt()) {
                     markIndex = extractor.nextInt();
@@ -48,7 +52,7 @@ public enum Commands {
 
                 break;
 
-                case unmark:
+            case unmark:
                 int unmarkIndex = -1;
                 if (extractor.hasNextInt()) {
                     unmarkIndex = extractor.nextInt();
@@ -59,7 +63,7 @@ public enum Commands {
                 }
                 break;
 
-                case delete:
+            case delete:
                 int deleteIndex = -1;
                 if (extractor.hasNextInt()) {
                     deleteIndex = extractor.nextInt();
@@ -70,7 +74,7 @@ public enum Commands {
                 break;
 
 
-                case todo:
+            case todo:
                 Task currToDo = new ToDo(inputText);
                 if (list.add(currToDo)) {
                     if (printTaskAdded) {
@@ -79,7 +83,7 @@ public enum Commands {
                 }
                 break;
 
-                case event:
+            case event:
                 Task currEvent = new Event(inputText);
                 if (list.add(currEvent)) {
                     if (printTaskAdded) {
@@ -88,7 +92,7 @@ public enum Commands {
                 }
                 break;
 
-                case deadline:
+            case deadline:
                 Task currDeadline = new Deadline(inputText);
                 if (list.add(currDeadline)) {
                     if (printTaskAdded) {
@@ -97,11 +101,11 @@ public enum Commands {
                 }
                 break;
 
-                default:
+            default:
                 System.out.println("\nShep says that command is invalid man, try again.\n");
                 break;
 
-                case bye:
+            case bye:
                 // Break the loop to exit
                 extractor.close();
                 return true;

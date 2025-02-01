@@ -24,8 +24,8 @@ public abstract class Task {
         } else if (firstSpaceIndex != -1) {
             taskName = inputText.substring(firstSpaceIndex + 1);
         } else {  // no space detected, wrong input
-            throw new IllegalArgumentException("The description of a " + 
-                this.getClass().getSimpleName() + " cannot be empty!");
+            throw new IllegalArgumentException("The description of a " +
+                    this.getClass().getSimpleName() + " cannot be empty!");
         }
 
         this.marked = false;
@@ -54,12 +54,12 @@ public abstract class Task {
 
     public void saveInto(Storage storage) {
         try (FileWriter fw = new FileWriter(storage.toString(), true)) {
-			fw.write(this.saveFormat + System.lineSeparator());
-			fw.close();
-		} catch (IOException e) {
+            fw.write(this.saveFormat + System.lineSeparator());
+            fw.close();
+        } catch (IOException e) {
             System.out.println("Couldn't save file: " + this.saveFormat);
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
     }
 
 }
