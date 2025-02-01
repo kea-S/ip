@@ -9,6 +9,7 @@ public enum Commands {
     list,
     mark,
     unmark,
+    find,
     bye,
     todo,
     deadline,
@@ -56,6 +57,13 @@ public enum Commands {
 
                 if (list.unmarkTask(unmarkIndex)) {
                     System.out.println("\nShep says he's unmarked:\n   " + list.get(unmarkIndex).toString() + "\n");
+                }
+                break;
+
+                case find:
+                if (extractor.hasNext()) {
+                    String word = extractor.next();
+                    System.out.println(list.findTasks(word));
                 }
                 break;
 
