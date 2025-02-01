@@ -2,9 +2,13 @@ package shep.task;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a tasklist, which is a list of {@link Task} objects.
+ * A <code>Tasklist</code> is 1-indexed.
+ *
+ * @see Task
+ */
 public class TaskList extends ArrayList<Task> {
-    // do this so that zero indexing and task list numbers
-    // arent confusing
     @Override
     public Task get(int index) {
         return super.get(index - 1);
@@ -15,11 +19,21 @@ public class TaskList extends ArrayList<Task> {
         return super.remove(index - 1);
     }
 
+    /**
+     * Marks {@link Task} at the index as done.
+     *
+     * @param index <code>int</code> value pointing to a {@link Task} in the TaskList
+     */
     public boolean markTask(int index) {
         this.get(index).markAsDone();
         return true;
     }
 
+    /**
+     * Marks {@link Task} at the index as not done
+     *
+     * @param index <code>int</code> value pointing to a {@link Task} in the TaskList
+     */
     public boolean unmarkTask(int index) {
         this.get(index).unmark();
         return true;
