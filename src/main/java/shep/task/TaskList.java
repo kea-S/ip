@@ -52,4 +52,16 @@ public class TaskList extends ArrayList<Task> {
         return finalList;
     }
 
+     public TaskList findTasks(String word) {
+        TaskList matchingTasks = new TaskList();
+
+        for (Task task : this) {
+            if (task.toString().contains(word)) {
+                matchingTasks.add(task);
+            }
+        }
+
+        return matchingTasks;
+    }
+
 }

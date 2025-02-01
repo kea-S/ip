@@ -17,6 +17,7 @@ public enum Commands {
     list,
     mark,
     unmark,
+    find,
     bye,
     todo,
     deadline,
@@ -77,7 +78,14 @@ public enum Commands {
                 }
                 break;
 
-            case delete:
+            case find:
+                if (extractor.hasNext()) {
+                    String word = extractor.next();
+                    System.out.println(list.findTasks(word));
+                }
+                break;
+
+                case delete:
                 int deleteIndex = -1;
                 if (extractor.hasNextInt()) {
                     deleteIndex = extractor.nextInt();
