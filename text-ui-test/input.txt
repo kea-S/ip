@@ -1,0 +1,6 @@
+todo cs2103
+deadline write essay /by 2025-10-10
+mark 2
+delete 1
+list
+bye
