@@ -45,8 +45,8 @@ public class TaskList extends ArrayList<Task> {
 
         // this is because of the zero indexing thing
         for (int i = 1; i <= this.size(); i++) {
-            finalList = finalList + String.valueOf(i) + ". " +
-                    this.get(i).toString() + "\n";
+            finalList = finalList + String.valueOf(i) + ". "
+                    + this.get(i).toString() + "\n";
         }
 
         return finalList;

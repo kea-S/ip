@@ -1,13 +1,12 @@
 package shep.command;
 
-import java.nio.file.Path;
 import java.util.Scanner;
 
-import shep.task.TaskList;
-import shep.task.Task;
-import shep.task.ToDo;
-import shep.task.Event;
 import shep.task.Deadline;
+import shep.task.Event;
+import shep.task.Task;
+import shep.task.TaskList;
+import shep.task.ToDo;
 
 /*
  * Represents the parser for Shep, parsing user CLI input text.
@@ -29,7 +28,7 @@ public enum Commands {
      * Parses user CLI input text and executes corresponding command.
      * If the command is invalid, prompt user to retry.
      * If the command include {@link String} "bye", return true.
-     * 
+     *
      * @param inputText Input text from the CLI to be parsed.
      * @param list {@link TaskList} to be modified by a command execution.
      * @param printTaskAdded Whether or not to output to the CLI Shep's messages on execution of commands that modify the list.
@@ -85,7 +84,7 @@ public enum Commands {
                 }
                 break;
 
-                case delete:
+            case delete:
                 int deleteIndex = -1;
                 if (extractor.hasNextInt()) {
                     deleteIndex = extractor.nextInt();
@@ -123,15 +122,17 @@ public enum Commands {
                 }
                 break;
 
-            default:
-                System.out.println("\nShep says that command is invalid man, try again.\n");
-                break;
-
             case bye:
                 // Break the loop to exit
                 extractor.close();
                 return true;
+
+            default:
+                System.out.println("\nShep says that command is invalid man, try again.\n");
+                break;
             }
+
+
             extractor.close();
         } catch (IllegalArgumentException e) {
             System.out.println(e);

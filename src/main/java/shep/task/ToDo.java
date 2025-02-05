@@ -2,13 +2,13 @@ package shep.task;
 
 public class ToDo extends Task {
 
-  public ToDo(String inputText) {
-    super(inputText);
-  }
+    public ToDo(String inputText) {
+        super(inputText);
+    }
 
-  @Override
-  public String toString() {
-    return "[T]" + super.toString();
-  }
+    @Override
+    public String toString() {
+        return "[T]" + super.toString();
+    }
 
 }

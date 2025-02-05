@@ -13,7 +13,7 @@ Shep is:
 
 ## Setup
 
-1. Download it [here]().
+1. Download it
 2. Double click it.
 3. Add your tasks.
 4. Let it manage your tasks for you.

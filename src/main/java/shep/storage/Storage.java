@@ -1,16 +1,17 @@
 package shep.storage;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
-import java.io.FileWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 
-import shep.task.TaskList;
-import shep.task.Task;
 import shep.command.Commands;
+import shep.task.Task;
+import shep.task.TaskList;
+
 
 /**
  *  Represents the storage file containing saved {@link Task}s.
@@ -25,8 +26,8 @@ public class Storage {
         if (!Files.exists(dataDirectoryPath)) {
             try {
                 Files.createDirectories(dataDirectoryPath);
-                System.out.println("I noticed that this is the first time we're talking," +
-                        "so I've made a directory to store our tasks - ");
+                System.out.println("I noticed that this is the first time we're talking,"
+                        + "so I've made a directory to store our tasks - ");
             } catch (IOException e) {
                 System.out.println("Directory not created");
                 e.printStackTrace();
@@ -54,7 +55,7 @@ public class Storage {
      *
      * @param tasklist The {@link TaskList} to be written into.
      * @see Task
-    */
+     */
     public void writeInto(TaskList tasklist) {
         // load filePath contents as a string
         List<String> fileContents = null;
@@ -95,7 +96,7 @@ public class Storage {
      *
      * @param tasklist The {@link TaskList} to be read from.
      * @see Task
-    */
+     */
     public void readFrom(TaskList tasklist) {
         // overwrite previous taskList to be empty, no need to add anything to the file
         try (FileWriter fileWriter = new FileWriter(this.toString(), false)) {
