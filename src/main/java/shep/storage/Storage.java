@@ -80,7 +80,7 @@ public class Storage {
 
             boolean isMarked = Boolean.parseBoolean(parts[1]);
             String command = parts[0];
-            Commands.executeCommand(command, tasklist, false);
+            Commands.executeCommand(command, tasklist, false, this);    // I don't think I can just do this here
 
             if (isMarked) {
                 tasklist.markTask(index + 1);   // taskList is 1 indexed

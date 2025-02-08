@@ -2,6 +2,7 @@ package shep;
 
 import shep.ui.Interaction;
 
+// don't use this class for now
 public class Shep {
     public static void main(String[] args) {
         String logo =  "(`-').-> (`-').-> (`-')  _ _  (`-')\n"
@@ -17,8 +18,14 @@ public class Shep {
 
         // Go into interaction process
         Interaction mainInteraction = new Interaction();
-        mainInteraction.start();
 
         System.out.println("\nHappy to help. Bye bye.");
+    }
+
+     /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        return "Shep heard: " + input;
     }
 }

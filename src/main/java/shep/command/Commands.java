@@ -2,6 +2,7 @@ package shep.command;
 
 import java.util.Scanner;
 
+import shep.storage.Storage;
 import shep.task.Deadline;
 import shep.task.Event;
 import shep.task.Task;
@@ -32,9 +33,9 @@ public enum Commands {
      * @param inputText Input text from the CLI to be parsed.
      * @param list {@link TaskList} to be modified by a command execution.
      * @param printTaskAdded Whether or not to output to the CLI Shep's messages on execution of commands that modify the list.
-     * @return true if the inputText given is bye. Else false.
+     * @return {@link String} response tied to command.
      */
-    public static boolean executeCommand(String inputText, TaskList list, boolean printTaskAdded) {
+    public static String executeCommand(String inputText, TaskList list, boolean printTaskAdded, Storage storage) {
         // get the first word
         Scanner extractor = new Scanner(inputText);
         String keyword = extractor.next();
@@ -48,98 +49,103 @@ public enum Commands {
             command = Commands.normal;
         }
 
+        String response = "";
+
         try {
             switch (command) {
-            case list:
-                System.out.println(list.toString());
+                case list:
+                response =  list.toString();
                 break;
 
-            case mark:
+                case mark:
                 int markIndex = -1;
                 if (extractor.hasNextInt()) {
                     markIndex = extractor.nextInt();
                 }
 
                 if (list.markTask(markIndex)) {
-                    System.out.println("\nShep says he's marked:\n   " + list.get(markIndex).toString() + "\n");
+                    response = "\nShep says he's marked:\n   " + list.get(markIndex).toString() + "\n";
                 }
 
                 break;
 
-            case unmark:
+                case unmark:
                 int unmarkIndex = -1;
                 if (extractor.hasNextInt()) {
                     unmarkIndex = extractor.nextInt();
                 }
 
                 if (list.unmarkTask(unmarkIndex)) {
-                    System.out.println("\nShep says he's unmarked:\n   " + list.get(unmarkIndex).toString() + "\n");
+                    response = "\nShep says he's unmarked:\n   " + list.get(unmarkIndex).toString() + "\n";
                 }
                 break;
 
-            case find:
+                case find:
                 if (extractor.hasNext()) {
                     String word = extractor.next();
-                    System.out.println(list.findTasks(word));
+                    response = list.findTasks(word).toString();
                 }
                 break;
 
-            case delete:
+                case delete:
                 int deleteIndex = -1;
                 if (extractor.hasNextInt()) {
                     deleteIndex = extractor.nextInt();
                 }
 
                 Task removed = list.remove(deleteIndex);
-                System.out.println("\nShep says he's deleted:\n   " + removed.toString() + "\n");
+                response = ("\nShep says he's deleted:\n   " + removed.toString() + "\n");
                 break;
 
 
-            case todo:
+                case todo:
                 Task currToDo = new ToDo(inputText);
                 if (list.add(currToDo)) {
                     if (printTaskAdded) {
-                        System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+                        response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
                 }
                 break;
 
-            case event:
+                case event:
                 Task currEvent = new Event(inputText);
                 if (list.add(currEvent)) {
                     if (printTaskAdded) {
-                        System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+                        response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
                 }
                 break;
 
-            case deadline:
+                case deadline:
                 Task currDeadline = new Deadline(inputText);
                 if (list.add(currDeadline)) {
                     if (printTaskAdded) {
-                        System.out.println("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+                        response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
                 }
                 break;
 
-            case bye:
+                case bye:
                 // Break the loop to exit
                 extractor.close();
-                return true;
+                // save the taskList into storage, I'm not too sure about this
+                storage.readFrom(list);
 
-            default:
-                System.out.println("\nShep says that command is invalid man, try again.\n");
+                response = "bye";
+                break;
+
+                default:
+                response = ("\nShep says that command is invalid man, try again.\n");
                 break;
             }
-
 
             extractor.close();
         } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
 
-        // haven't finished executing
-        return false;
+        // if return "" failure, need to throw some things here better
+        return response;
     }
 
 }

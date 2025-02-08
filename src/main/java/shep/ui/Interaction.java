@@ -1,7 +1,5 @@
 package shep.ui;
 
-import java.util.Scanner;
-
 import shep.storage.Storage;
 import shep.task.TaskList;
 import shep.command.Commands;
@@ -13,22 +11,15 @@ public class Interaction {
     public Interaction() {
         this.list = new TaskList();
         this.storage = new Storage();
-    }
 
-    public void start() {
         // load storage into tasklist
         this.storage.writeInto(this.list);
 
-        Scanner userInputScanner = new Scanner(System.in);
-        boolean saidBye = false;
-        while (!saidBye) {
-            String currUserInputText = userInputScanner.nextLine();
-            saidBye = Commands.executeCommand(currUserInputText, this.list, true);
-        }
-        userInputScanner.close();
+    }
 
-        // save the taskList into storage, I'm not too sure about this
-        this.storage.readFrom(this.list);
+    public String getResponse(String input) {
+        String response = Commands.executeCommand(input, this.list, true, this.storage);
+        return response;
     }
 
 }
