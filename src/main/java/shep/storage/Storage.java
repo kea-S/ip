@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 
-import shep.command.Commands;
 import shep.task.Task;
 import shep.task.TaskList;
 
@@ -19,22 +18,44 @@ import shep.task.TaskList;
  */
 public class Storage {
     private Path filePath;
+    private TaskList taskList;
 
     public Storage() {
-        // load or initialise data directory
+        createDataDirectory();
+
+        createDataFile();
+
+        this.filePath = Paths.get("../data/Shep.txt");
+    }
+
+    public Storage(TaskList tasklist) {
+        this.taskList = tasklist;
+
+        createDataDirectory();
+
+        createDataFile();
+
+        this.filePath = Paths.get("../data/Shep.txt");
+
+        readFrom();
+
+    }
+
+    private void createDataDirectory() {
         Path dataDirectoryPath = Paths.get("../data");
         if (!Files.exists(dataDirectoryPath)) {
             try {
                 Files.createDirectories(dataDirectoryPath);
                 System.out.println("I noticed that this is the first time we're talking,"
-                        + "so I've made a directory to store our tasks - ");
+                    + "so I've made a directory to store our tasks - ");
             } catch (IOException e) {
                 System.out.println("Directory not created");
                 e.printStackTrace();
             }
         }
+    }
 
-        // initialise data file if not there
+    private void createDataFile() {
         Path dataFilePath = Paths.get("../data/Shep.txt");
         if (!Files.exists(dataFilePath)) {
             try {
@@ -45,20 +66,11 @@ public class Storage {
                 e.printStackTrace();
             }
         }
-
-        this.filePath = dataFilePath;
     }
 
-    /**
-     * Adds saved {@link Task}s in the storage file to the specified {@link TaskList} taskList.
-     * Mutates specified {@link TaskList} taskList.
-     *
-     * @param tasklist The {@link TaskList} to be written into.
-     * @see Task
-     */
-    public void writeInto(TaskList tasklist) {
-        // load filePath contents as a string
+    public List<String> read() {
         List<String> fileContents = null;
+
         try {
             fileContents = Files.readAllLines(this.filePath);
         } catch (IOException e) {
@@ -66,29 +78,7 @@ public class Storage {
             e.printStackTrace();
         }
 
-        // read the file and add to list, remember list is 1-indexed
-        int index = 0;
-        while (index < fileContents.size()) {
-            // split the saveFormatted text
-            String saveFormat = fileContents.get(index);
-            String[] parts = saveFormat.split(" \\| ");
-
-            // Check if the split was successful and print the parts
-            if (parts.length != 2) {
-                System.out.println("saveFormat not followed: (task) | (marked)");
-            }
-
-            boolean isMarked = Boolean.parseBoolean(parts[1]);
-            String command = parts[0];
-            Commands.executeCommand(command, tasklist, false, this);    // I don't think I can just do this here
-
-            if (isMarked) {
-                tasklist.markTask(index + 1);   // taskList is 1 indexed
-            }
-
-            index++;
-        }
-
+        return fileContents;
     }
 
     /**
@@ -97,17 +87,19 @@ public class Storage {
      * @param tasklist The {@link TaskList} to be read from.
      * @see Task
      */
-    public void readFrom(TaskList tasklist) {
+    private void readFrom() {
         // overwrite previous taskList to be empty, no need to add anything to the file
-        try (FileWriter fileWriter = new FileWriter(this.toString(), false)) {
+        try {
+            FileWriter fileWriter = new FileWriter(this.toString(), false);
+            fileWriter.close();
         } catch (IOException e) {
             System.err.println("An error occurred while clearing the file: " + e.getMessage());
         }
 
         // write the tasklist to usual filepath
-        Iterator<Task> taskIterator = tasklist.iterator();
-        while (taskIterator.hasNext()) {    // I don't know a good way to do this without using getters
-            taskIterator.next().saveInto(this); // should the file be responsible for saving itself?
+        Iterator<Task> taskIterator = this.taskList.iterator();
+        while (taskIterator.hasNext()) {
+            taskIterator.next().saveInto(this);
         }
     }
 
