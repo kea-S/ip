@@ -13,6 +13,11 @@ import shep.storage.Storage;
  * @see Task
  */
 public class TaskList extends ArrayList<Task> {
+    private Storage storage;
+
+    public TaskList() {
+        super();
+    }
 
     /**
      * Adds saved {@link Task}s in the storage file to the specified {@link TaskList} taskList.
@@ -21,13 +26,6 @@ public class TaskList extends ArrayList<Task> {
      * @see Task
      * @see Storage
      */
-
-    private Storage storage;
-
-    public TaskList() {
-        super();
-    }
-
     public TaskList(Storage storage) {
         this.storage = storage;
 
@@ -81,7 +79,9 @@ public class TaskList extends ArrayList<Task> {
         return finalList;
     }
 
-    public TaskList findTasks(String word) {
+     public TaskList findTasks(String word) {
+        assert word != "";
+
         TaskList matchingTasks = new TaskList();
 
         for (Task task : this) {

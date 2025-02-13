@@ -66,8 +66,11 @@ public class Storage {
                 e.printStackTrace();
             }
         }
+
+        assert dataFilePath == Paths.get("../data/Shep.txt");
     }
 
+    
     public List<String> read() {
         List<String> fileContents = null;
 
@@ -77,6 +80,8 @@ public class Storage {
             System.out.println("Failed to read file");
             e.printStackTrace();
         }
+
+        assert fileContents != null;
 
         return fileContents;
     }

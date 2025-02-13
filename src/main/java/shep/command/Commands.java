@@ -49,6 +49,8 @@ public enum Commands {
             command = Commands.normal;
         }
 
+        assert command instanceof Commands;
+
         String response = "";
 
         try {
@@ -93,10 +95,14 @@ public enum Commands {
                     deleteIndex = extractor.nextInt();
                 }
 
+                assert deleteIndex != -1;
+
                 Task removed = list.remove(deleteIndex);
+
+                assert removed != null;
+
                 response = ("\nShep says he's deleted:\n   " + removed.toString() + "\n");
                 break;
-
 
                 case todo:
                 Task currToDo = new ToDo(inputText);
@@ -144,7 +150,9 @@ public enum Commands {
         }
 
         // if return "" failure, need to throw some things here better
+        assert response != "";
+
         return response;
     }
 
-}
+    }
