@@ -49,6 +49,8 @@ public enum Commands {
             command = Commands.normal;
         }
 
+        assert command instanceof Commands;
+
         String response = "";
 
         try {
@@ -93,36 +95,44 @@ public enum Commands {
                     deleteIndex = extractor.nextInt();
                 }
 
+                assert deleteIndex != -1;
+
                 Task removed = list.remove(deleteIndex);
+
+                assert removed != null;
+
                 response = ("\nShep says he's deleted:\n   " + removed.toString() + "\n");
                 break;
 
 
                 case todo:
                 Task currToDo = new ToDo(inputText);
-                if (list.add(currToDo)) {
+
+                assert list.add(currToDo);
+
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
-                }
                 break;
 
                 case event:
                 Task currEvent = new Event(inputText);
-                if (list.add(currEvent)) {
+
+                assert list.add(currEvent);
+
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
-                }
                 break;
 
                 case deadline:
                 Task currDeadline = new Deadline(inputText);
-                if (list.add(currDeadline)) {
+
+                assert list.add(currDeadline);
+
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
-                }
                 break;
 
                 case bye:
@@ -145,6 +155,8 @@ public enum Commands {
         }
 
         // if return "" failure, need to throw some things here better
+        assert response != "";
+
         return response;
     }
 

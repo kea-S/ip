@@ -53,6 +53,8 @@ public class TaskList extends ArrayList<Task> {
     }
 
      public TaskList findTasks(String word) {
+        assert word != "";
+
         TaskList matchingTasks = new TaskList();
 
         for (Task task : this) {

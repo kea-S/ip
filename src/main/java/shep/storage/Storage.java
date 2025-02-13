@@ -46,6 +46,8 @@ public class Storage {
             }
         }
 
+        assert dataFilePath == Paths.get("../data/Shep.txt");
+
         this.filePath = dataFilePath;
     }
 
@@ -57,6 +59,9 @@ public class Storage {
      * @see Task
      */
     public void writeInto(TaskList tasklist) {
+
+        assert tasklist != null;
+
         // load filePath contents as a string
         List<String> fileContents = null;
         try {
@@ -80,9 +85,14 @@ public class Storage {
 
             boolean isMarked = Boolean.parseBoolean(parts[1]);
             String command = parts[0];
+
+            assert Commands.valueOf(command) instanceof Commands;
+
             Commands.executeCommand(command, tasklist, false, this);    // I don't think I can just do this here
 
             if (isMarked) {
+                assert index + 1 <= tasklist.size();
+
                 tasklist.markTask(index + 1);   // taskList is 1 indexed
             }
 

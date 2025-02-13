@@ -31,6 +31,8 @@ public abstract class Task {
                     + this.getClass().getSimpleName() + " cannot be empty!");
         }
 
+        assert taskName != "";
+
         this.marked = false;
         this.inputText = inputText;
         this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
@@ -72,6 +74,8 @@ public abstract class Task {
      * @see Storage
      */
     public void saveInto(Storage storage) {
+        assert storage != null;
+
         try (FileWriter fw = new FileWriter(storage.toString(), true)) {
             fw.write(this.saveFormat + System.lineSeparator());
             fw.close();
