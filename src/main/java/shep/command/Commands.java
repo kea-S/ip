@@ -104,35 +104,31 @@ public enum Commands {
                 response = ("\nShep says he's deleted:\n   " + removed.toString() + "\n");
                 break;
 
-
                 case todo:
                 Task currToDo = new ToDo(inputText);
-
-                assert list.add(currToDo);
-
+                if (list.add(currToDo)) {
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
+                }
                 break;
 
                 case event:
                 Task currEvent = new Event(inputText);
-
-                assert list.add(currEvent);
-
+                if (list.add(currEvent)) {
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
+                }
                 break;
 
                 case deadline:
                 Task currDeadline = new Deadline(inputText);
-
-                assert list.add(currDeadline);
-
+                if (list.add(currDeadline)) {
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
+                }
                 break;
 
                 case bye:
@@ -160,4 +156,4 @@ public enum Commands {
         return response;
     }
 
-}
+    }
