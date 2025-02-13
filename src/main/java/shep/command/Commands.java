@@ -126,10 +126,9 @@ public enum Commands {
                 break;
 
                 case bye:
-                // Break the loop to exit
                 extractor.close();
-                // save the taskList into storage, I'm not too sure about this
-                storage.readFrom(list);
+
+                storage = new Storage(list);
 
                 response = "bye";
                 break;

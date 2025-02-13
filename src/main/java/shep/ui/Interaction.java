@@ -9,16 +9,13 @@ public class Interaction {
     Storage storage;
 
     public Interaction() {
-        this.list = new TaskList();
         this.storage = new Storage();
-
-        // load storage into tasklist
-        this.storage.writeInto(this.list);
-
+        this.list = new TaskList(storage);
     }
 
     public String getResponse(String input) {
         String response = Commands.executeCommand(input, this.list, true, this.storage);
+
         return response;
     }
 
