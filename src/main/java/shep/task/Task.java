@@ -15,28 +15,10 @@ public abstract class Task {
     private String saveFormat;
 
     public Task(String inputText) {
-        int firstSpaceIndex = inputText.indexOf(' ');
-        int firstForwardSlash = inputText.indexOf('/');
-
-        String taskName = "";
-
-        // Check if there is a space in the string
-
-        if (firstForwardSlash != -1 && firstSpaceIndex != -1) {
-            taskName = inputText.substring(firstSpaceIndex + 1, firstForwardSlash - 1);
-        } else if (firstSpaceIndex != -1) {
-            taskName = inputText.substring(firstSpaceIndex + 1);
-        } else {  // no space detected, wrong input
-            throw new IllegalArgumentException("The description of a "
-                    + this.getClass().getSimpleName() + " cannot be empty!");
-        }
-
-        assert taskName != "";
-
         this.marked = false;
         this.inputText = inputText;
         this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
-        this.taskName = taskName;
+        this.taskName = this.getTaskName(inputText);
     }
 
     /**
@@ -47,6 +29,7 @@ public abstract class Task {
     public boolean markAsDone() {
         this.marked = true;
         this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
+
         return true;
     }
 
@@ -58,12 +41,14 @@ public abstract class Task {
     public boolean unmark() {
         this.marked = false;
         this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
+
         return true;
     }
 
     @Override
     public String toString() {
         String checkbox = this.marked ? "[X] " : "[ ] ";
+
         return checkbox + this.taskName;
     }
 
@@ -83,6 +68,25 @@ public abstract class Task {
             System.out.println("Couldn't save file: " + this.saveFormat);
             e.printStackTrace();
         }
+    }
+
+    public String getTaskName(String inputText) {
+        int firstSpaceIndex = inputText.indexOf(' ');
+        int firstForwardSlash = inputText.indexOf('/');
+
+        String taskName = "";
+
+        // Check if there is a space in the string
+        if (firstForwardSlash != -1 && firstSpaceIndex != -1) {
+            taskName = inputText.substring(firstSpaceIndex + 1, firstForwardSlash - 1);
+        } else if (firstSpaceIndex != -1) {
+            taskName = inputText.substring(firstSpaceIndex + 1);
+        } else {  // no space detected, wrong input
+            throw new IllegalArgumentException("The description of a "
+                    + this.getClass().getSimpleName() + " cannot be empty!");
+        }
+
+        return taskName;
     }
 
 }
