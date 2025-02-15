@@ -15,7 +15,6 @@ public class CommandsTest {
 
         String actualOutput = Commands.executeCommand("remind", new TaskList(), false, null);
 
-        // Assert that the output is as expected
         assertEquals(expectedOutput, actualOutput);
     }
 
