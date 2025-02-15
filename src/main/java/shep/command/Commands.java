@@ -55,11 +55,11 @@ public enum Commands {
 
         try {
             switch (command) {
-                case list:
+            case list:
                 response =  list.toString();
                 break;
 
-                case mark:
+            case mark:
                 int markIndex = -1;
                 if (extractor.hasNextInt()) {
                     markIndex = extractor.nextInt();
@@ -71,7 +71,7 @@ public enum Commands {
 
                 break;
 
-                case unmark:
+            case unmark:
                 int unmarkIndex = -1;
                 if (extractor.hasNextInt()) {
                     unmarkIndex = extractor.nextInt();
@@ -82,14 +82,14 @@ public enum Commands {
                 }
                 break;
 
-                case find:
+            case find:
                 if (extractor.hasNext()) {
                     String word = extractor.next();
                     response = list.findTasks(word).toString();
                 }
                 break;
 
-                case delete:
+            case delete:
                 int deleteIndex = -1;
                 if (extractor.hasNextInt()) {
                     deleteIndex = extractor.nextInt();
@@ -104,34 +104,40 @@ public enum Commands {
                 response = ("\nShep says he's deleted:\n   " + removed.toString() + "\n");
                 break;
 
-                case todo:
+            case todo:
                 Task currToDo = new ToDo(inputText);
                 if (list.add(currToDo)) {
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
+                } else {
+                    response = ("\nFailed to add Task! Check if this task already exists\n");
                 }
                 break;
 
-                case event:
+            case event:
                 Task currEvent = new Event(inputText);
                 if (list.add(currEvent)) {
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
+                } else {
+                    response = ("\nFailed to add Task! Check if this task already exists\n");
                 }
                 break;
 
-                case deadline:
+            case deadline:
                 Task currDeadline = new Deadline(inputText);
                 if (list.add(currDeadline)) {
                     if (printTaskAdded) {
                         response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
                     }
+                } else {
+                    response = ("\nFailed to add Task! Check if this task already exists\n");
                 }
                 break;
 
-                case bye:
+            case bye:
                 extractor.close();
 
                 storage = new Storage(list);
@@ -139,7 +145,7 @@ public enum Commands {
                 response = "bye";
                 break;
 
-                default:
+            default:
                 response = ("\nShep says that command is invalid man, try again.\n");
                 break;
             }
@@ -150,9 +156,9 @@ public enum Commands {
         }
 
         // if return "" failure, need to throw some things here better
-        assert response != "";
+        assert !response.isEmpty();
 
         return response;
     }
 
-    }
+}

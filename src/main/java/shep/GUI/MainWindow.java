@@ -67,9 +67,8 @@ public class MainWindow extends AnchorPane {
         );
         userInput.clear();
 
-        if (response == "bye") {
+        if (response.equals("bye")) {
             Platform.exit();
         }
     }
 }
-

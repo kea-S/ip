@@ -17,32 +17,45 @@ import shep.task.TaskList;
  *  A <code>Storage</code> object points to the file Shep.txt under directory ../data/
  */
 public class Storage {
+    private String DEFAULT_DIRECTORY = "../data";
+    private String DEFAULT_PATH = "../data/Shep.txt";
     private Path filePath;
     private TaskList taskList;
 
     public Storage() {
-        createDataDirectory();
+        createDataDirectory(DEFAULT_DIRECTORY);
 
-        createDataFile();
+        createDataFile(DEFAULT_PATH);
 
-        this.filePath = Paths.get("../data/Shep.txt");
+        this.filePath = Paths.get(DEFAULT_DIRECTORY);
     }
+
+    public Storage(String directory, String file) {
+        createDataDirectory(directory);
+
+        String path = directory + "/" + file;
+
+        createDataFile(path);
+
+        this.filePath = Paths.get(path);
+    }
+
 
     public Storage(TaskList tasklist) {
         this.taskList = tasklist;
 
-        createDataDirectory();
+        createDataDirectory(DEFAULT_DIRECTORY);
 
-        createDataFile();
+        createDataFile(DEFAULT_PATH);
 
-        this.filePath = Paths.get("../data/Shep.txt");
+        this.filePath = Paths.get(DEFAULT_PATH);
 
         readFrom();
 
     }
 
-    private void createDataDirectory() {
-        Path dataDirectoryPath = Paths.get("../data");
+    private void createDataDirectory(String directory) {
+        Path dataDirectoryPath = Paths.get(directory);
         if (!Files.exists(dataDirectoryPath)) {
             try {
                 Files.createDirectories(dataDirectoryPath);
@@ -55,8 +68,8 @@ public class Storage {
         }
     }
 
-    private void createDataFile() {
-        Path dataFilePath = Paths.get("../data/Shep.txt");
+    private void createDataFile(String file) {
+        Path dataFilePath = Paths.get(file);
         if (!Files.exists(dataFilePath)) {
             try {
                 Files.createFile(dataFilePath);
@@ -67,7 +80,6 @@ public class Storage {
             }
         }
 
-        assert dataFilePath == Paths.get("../data/Shep.txt");
     }
 
     

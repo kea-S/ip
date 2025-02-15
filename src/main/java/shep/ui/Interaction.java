@@ -1,8 +1,8 @@
 package shep.ui;
 
+import shep.command.Commands;
 import shep.storage.Storage;
 import shep.task.TaskList;
-import shep.command.Commands;
 
 public class Interaction {
     TaskList list;

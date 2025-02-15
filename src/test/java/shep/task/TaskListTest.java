@@ -1,8 +1,8 @@
 package shep.task;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class TaskListTest {
     
@@ -29,5 +29,18 @@ public class TaskListTest {
         assertEquals(expectedResult, actualTaskList.isEmpty());
     }
 
+    @Test
+    public void checkDuplicates_ExistingTask_true() {
+        boolean expectedResult = true;
+
+        TaskList actualTaskList = new TaskList();
+        actualTaskList.add(new ToDo("Write Tests"));
+
+
+        Task actualTask = new ToDo("Write Tests");
+        boolean actualResult = actualTaskList.checkDuplicates(actualTask);
+
+        assertEquals(expectedResult, actualResult);
+    }
     
 }

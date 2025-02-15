@@ -40,6 +40,16 @@ public class TaskList extends ArrayList<Task> {
     }
 
     @Override
+    public boolean add(Task task) {
+        if (checkDuplicates(task)) {
+            return false;
+        }
+
+        return super.add(task);
+    }
+
+
+    @Override
     public Task remove(int index) {
         return super.remove(index - 1);
     }
@@ -73,13 +83,13 @@ public class TaskList extends ArrayList<Task> {
         // this is so that 1-index logic makes sense
         for (int i = 1; i <= this.size(); i++) {
             finalList = finalList + String.valueOf(i) + ". "
-            + this.get(i).toString() + "\n";
+                    + this.get(i).toString() + "\n";
         }
 
         return finalList;
     }
 
-     public TaskList findTasks(String word) {
+    public TaskList findTasks(String word) {
         assert word != "";
 
         TaskList matchingTasks = new TaskList();
@@ -117,6 +127,13 @@ public class TaskList extends ArrayList<Task> {
             index++;
         }
 
+    }
+
+    public boolean checkDuplicates(Task task) {
+        return this.stream()
+                .filter(currTask -> currTask.equals(task))
+                .findFirst()
+                .isPresent();
     }
 
 }

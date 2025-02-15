@@ -81,12 +81,27 @@ public abstract class Task {
             taskName = inputText.substring(firstSpaceIndex + 1, firstForwardSlash - 1);
         } else if (firstSpaceIndex != -1) {
             taskName = inputText.substring(firstSpaceIndex + 1);
-        } else {  // no space detected, wrong input
+        } else {
             throw new IllegalArgumentException("The description of a "
                     + this.getClass().getSimpleName() + " cannot be empty!");
         }
 
         return taskName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Task objTaskCasted = (Task) obj;
+
+        return this.inputText.equals(objTaskCasted.inputText);
     }
 
 }
