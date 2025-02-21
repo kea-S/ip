@@ -77,11 +77,13 @@ public abstract class Task {
         String taskName = "";
 
         // Check if there is a space in the string
-        if (firstForwardSlash != -1 && firstSpaceIndex != -1) {
-            taskName = inputText.substring(firstSpaceIndex + 1, firstForwardSlash - 1);
+        if (firstForwardSlash != -1 && firstSpaceIndex != -1 && firstSpaceIndex + 1 < firstForwardSlash - 1) {
+            taskName = inputText.substring(firstSpaceIndex + 1, firstForwardSlash - 1).trim();
         } else if (firstSpaceIndex != -1) {
-            taskName = inputText.substring(firstSpaceIndex + 1);
-        } else {
+            taskName = inputText.substring(firstSpaceIndex + 1).trim();
+        }
+
+        if (taskName.equals("")) {
             throw new IllegalArgumentException("The description of a "
                     + this.getClass().getSimpleName() + " cannot be empty!");
         }

@@ -104,6 +104,10 @@ public class TaskList extends ArrayList<Task> {
     }
 
     private void process(List<String> fileContents) {
+        if (fileContents.isEmpty()) {
+            return;
+        }
+
         int index = 0;
         while (index < fileContents.size()) {
             // split the saveFormatted text

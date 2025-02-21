@@ -27,7 +27,7 @@ public class Storage {
 
         createDataFile(DEFAULT_PATH);
 
-        this.filePath = Paths.get(DEFAULT_DIRECTORY);
+        this.filePath = Paths.get(DEFAULT_PATH);
     }
 
     public Storage(String directory, String file) {

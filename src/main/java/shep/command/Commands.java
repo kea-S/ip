@@ -1,6 +1,7 @@
 package shep.command;
 
 import java.util.Scanner;
+import java.time.format.DateTimeParseException;
 
 import shep.storage.Storage;
 import shep.task.Deadline;
@@ -55,41 +56,41 @@ public enum Commands {
 
         try {
             switch (command) {
-            case list:
+                case list:
                 response =  list.toString();
                 break;
 
-            case mark:
+                case mark:
                 int markIndex = -1;
                 if (extractor.hasNextInt()) {
                     markIndex = extractor.nextInt();
                 }
 
                 if (list.markTask(markIndex)) {
-                    response = "\nShep says he's marked:\n   " + list.get(markIndex).toString() + "\n";
+                    response = "Shep says he's marked:\n   " + list.get(markIndex).toString();
                 }
 
                 break;
 
-            case unmark:
+                case unmark:
                 int unmarkIndex = -1;
                 if (extractor.hasNextInt()) {
                     unmarkIndex = extractor.nextInt();
                 }
 
                 if (list.unmarkTask(unmarkIndex)) {
-                    response = "\nShep says he's unmarked:\n   " + list.get(unmarkIndex).toString() + "\n";
+                    response = "Shep says he's unmarked:\n   " + list.get(unmarkIndex).toString();
                 }
                 break;
 
-            case find:
+                case find:
                 if (extractor.hasNext()) {
                     String word = extractor.next();
                     response = list.findTasks(word).toString();
                 }
                 break;
 
-            case delete:
+                case delete:
                 int deleteIndex = -1;
                 if (extractor.hasNextInt()) {
                     deleteIndex = extractor.nextInt();
@@ -101,43 +102,75 @@ public enum Commands {
 
                 assert removed != null;
 
-                response = ("\nShep says he's deleted:\n   " + removed.toString() + "\n");
+                response = "Shep says he's deleted:\n   " + removed.toString();
                 break;
 
-            case todo:
-                Task currToDo = new ToDo(inputText);
+                case todo:
+
+                Task currToDo;
+
+                try {
+                    currToDo = new ToDo(inputText);
+                } catch (IllegalArgumentException e) {
+                    response = e.getMessage();
+                    break;
+                }
+
                 if (list.add(currToDo)) {
                     if (printTaskAdded) {
-                        response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+                        response = "Shep says he's added:\n   " + list.get(list.size()).toString();
                     }
                 } else {
-                    response = ("\nFailed to add Task! Check if this task already exists\n");
+                    response = "Failed to add Task! Check if this task already exists";
                 }
                 break;
 
-            case event:
-                Task currEvent = new Event(inputText);
+                case event:
+
+                Task currEvent;
+                try {
+                    currEvent = new Event(inputText);
+                } catch (IllegalArgumentException e) {
+                    response = e.getMessage();
+                    break;
+                } catch (DateTimeParseException e) {
+                    response = "Dates must be of the format yyyy-MM-dd (e.g. 2025-02-21)";
+                    break;
+                }
+
                 if (list.add(currEvent)) {
                     if (printTaskAdded) {
-                        response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+                        response = "Shep says he's added:\n   " + list.get(list.size()).toString();
                     }
                 } else {
-                    response = ("\nFailed to add Task! Check if this task already exists\n");
+                    response = "Failed to add Task! Check if this task already exists";
                 }
                 break;
 
-            case deadline:
-                Task currDeadline = new Deadline(inputText);
+                case deadline:
+
+                Task currDeadline;
+                try {
+                    currDeadline = new Deadline(inputText);
+                } catch (IllegalArgumentException e) {
+                    response = e.getMessage();
+                    break;
+                } catch (DateTimeParseException e) {
+                    response = "Dates must be of the format yyyy-MM-dd (e.g. 2025-02-21)";
+                    break;
+                }
+
+
                 if (list.add(currDeadline)) {
                     if (printTaskAdded) {
-                        response = ("\nShep says he's added:\n   " + list.get(list.size()).toString() + "\n");
+                        response = "Shep says he's added:\n   " + list.get(list.size()).toString();
                     }
                 } else {
-                    response = ("\nFailed to add Task! Check if this task already exists\n");
+                    response = "Failed to add Task! Check if this task already exists";
                 }
                 break;
 
-            case bye:
+                case bye:
                 extractor.close();
 
                 storage = new Storage(list);
@@ -145,8 +178,8 @@ public enum Commands {
                 response = "bye";
                 break;
 
-            default:
-                response = ("\nShep says that command is invalid man, try again.\n");
+                default:
+                response = "Shep says that command is invalid man, try again.";
                 break;
             }
 
@@ -155,10 +188,9 @@ public enum Commands {
             System.out.println(e);
         }
 
-        // if return "" failure, need to throw some things here better
         assert !response.isEmpty();
 
         return response;
     }
 
-}
+    }
