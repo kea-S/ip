@@ -76,7 +76,7 @@ public abstract class Task {
 
         String taskName = "";
 
-        // Check if there is a space in the string
+        // Get a taskName if it exists, check if it exists
         if (firstForwardSlash != -1 && firstSpaceIndex != -1 && firstSpaceIndex + 1 < firstForwardSlash - 1) {
             taskName = inputText.substring(firstSpaceIndex + 1, firstForwardSlash - 1).trim();
         } else if (firstSpaceIndex != -1 && this instanceof ToDo) {
