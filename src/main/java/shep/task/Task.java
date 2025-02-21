@@ -79,7 +79,7 @@ public abstract class Task {
         // Check if there is a space in the string
         if (firstForwardSlash != -1 && firstSpaceIndex != -1 && firstSpaceIndex + 1 < firstForwardSlash - 1) {
             taskName = inputText.substring(firstSpaceIndex + 1, firstForwardSlash - 1).trim();
-        } else if (firstSpaceIndex != -1) {
+        } else if (firstSpaceIndex != -1 && this instanceof ToDo) {
             taskName = inputText.substring(firstSpaceIndex + 1).trim();
         }
 
