@@ -37,160 +37,180 @@ public enum Commands {
      * @return {@link String} response tied to command.
      */
     public static String executeCommand(String inputText, TaskList list, boolean printTaskAdded, Storage storage) {
-        // get the first word
         Scanner extractor = new Scanner(inputText);
         String keyword = extractor.next();
-
-        // Attempt to match the keyword with a command
-        Commands command;
-        try {
-            command = Commands.valueOf(keyword);
-        } catch (IllegalArgumentException e) {
-            // If the keyword does not match any command, go to default
-            command = Commands.normal;
-        }
-
-        assert command instanceof Commands;
+        Commands command = getCommand(keyword);
 
         String response = "";
-
         try {
             switch (command) {
                 case list:
-                response =  list.toString();
+                response = handleListCommand(list);
                 break;
-
                 case mark:
-                int markIndex = -1;
-                if (extractor.hasNextInt()) {
-                    markIndex = extractor.nextInt();
-                }
-
-                if (list.markTask(markIndex)) {
-                    response = "Shep says he's marked:\n   " + list.get(markIndex).toString();
-                }
-
+                response = handleMarkCommand(extractor, list);
                 break;
-
                 case unmark:
-                int unmarkIndex = -1;
-                if (extractor.hasNextInt()) {
-                    unmarkIndex = extractor.nextInt();
-                }
-
-                if (list.unmarkTask(unmarkIndex)) {
-                    response = "Shep says he's unmarked:\n   " + list.get(unmarkIndex).toString();
-                }
+                response = handleUnmarkCommand(extractor, list);
                 break;
-
                 case find:
-                if (extractor.hasNext()) {
-                    String word = extractor.next();
-                    response = list.findTasks(word).toString();
-                }
+                response = handleFindCommand(extractor, list);
                 break;
-
                 case delete:
-                int deleteIndex = -1;
-                if (extractor.hasNextInt()) {
-                    deleteIndex = extractor.nextInt();
-                }
-
-                assert deleteIndex != -1;
-
-                Task removed = list.remove(deleteIndex);
-
-                assert removed != null;
-
-                response = "Shep says he's deleted:\n   " + removed.toString();
+                response = handleDeleteCommand(extractor, list);
                 break;
-
                 case todo:
-
-                Task currToDo;
-
-                try {
-                    currToDo = new ToDo(inputText);
-                } catch (IllegalArgumentException e) {
-                    response = e.getMessage();
-                    break;
-                }
-
-                if (list.add(currToDo)) {
-                    if (printTaskAdded) {
-                        response = "Shep says he's added:\n   " + list.get(list.size()).toString();
-                    }
-                } else {
-                    response = "Failed to add Task! Check if this task already exists";
-                }
+                response = handleTodoCommand(inputText, list, printTaskAdded);
                 break;
-
                 case event:
-
-                Task currEvent;
-                try {
-                    currEvent = new Event(inputText);
-                } catch (IllegalArgumentException e) {
-                    response = e.getMessage();
-                    break;
-                } catch (DateTimeParseException e) {
-                    response = "Dates must be of the format yyyy-MM-dd (e.g. 2025-02-21)";
-                    break;
-                }
-
-                if (list.add(currEvent)) {
-                    if (printTaskAdded) {
-                        response = "Shep says he's added:\n   " + list.get(list.size()).toString();
-                    }
-                } else {
-                    response = "Failed to add Task! Check if this task already exists";
-                }
+                response = handleEventCommand(inputText, list, printTaskAdded);
                 break;
-
                 case deadline:
-
-                Task currDeadline;
-                try {
-                    currDeadline = new Deadline(inputText);
-                } catch (IllegalArgumentException e) {
-                    response = e.getMessage();
-                    break;
-                } catch (DateTimeParseException e) {
-                    response = "Dates must be of the format yyyy-MM-dd (e.g. 2025-02-21)";
-                    break;
-                }
-
-
-                if (list.add(currDeadline)) {
-                    if (printTaskAdded) {
-                        response = "Shep says he's added:\n   " + list.get(list.size()).toString();
-                    }
-                } else {
-                    response = "Failed to add Task! Check if this task already exists";
-                }
+                response = handleDeadlineCommand(inputText, list, printTaskAdded);
                 break;
-
                 case bye:
-                extractor.close();
-
-                storage = new Storage(list);
-
-                response = "bye";
+                response = handleByeCommand(extractor, list, storage);
                 break;
-
                 default:
                 response = "Shep says that command is invalid man, try again.";
                 break;
             }
-
-            extractor.close();
         } catch (IllegalArgumentException e) {
             System.out.println(e);
+        } finally {
+            extractor.close();
         }
 
         assert !response.isEmpty();
-
         return response;
     }
 
+    private static Commands getCommand(String keyword) {
+        try {
+            return Commands.valueOf(keyword);
+        } catch (IllegalArgumentException e) {
+            return Commands.normal;
+        }
     }
+
+    private static String handleListCommand(TaskList list) {
+        return list.toString();
+    }
+
+    private static String handleMarkCommand(Scanner extractor, TaskList list) {
+        int markIndex;
+        if (extractor.hasNextInt()) {
+            markIndex = extractor.nextInt();
+        } else {
+            markIndex = -1;
+        }
+
+        if (list.markTask(markIndex)) {
+            return "Shep says he's marked:\n   " + list.get(markIndex).toString();
+        }
+        return "Invalid index for mark command.";
+    }
+
+    private static String handleUnmarkCommand(Scanner extractor, TaskList list) {
+        int unmarkIndex;
+        if (extractor.hasNextInt()) {
+            unmarkIndex = extractor.nextInt();
+        } else {
+            unmarkIndex = -1;
+        }
+
+        if (list.unmarkTask(unmarkIndex)) {
+            return "Shep says he's unmarked:\n   " + list.get(unmarkIndex).toString();
+        }
+        return "Invalid index for unmark command.";
+    }
+
+    private static String handleFindCommand(Scanner extractor, TaskList list) {
+        if (extractor.hasNext()) {
+            String word = extractor.next();
+            return list.findTasks(word).toString();
+        }
+        return "No search term provided for find command.";
+    }
+
+    private static String handleDeleteCommand(Scanner extractor, TaskList list) {
+        int deleteIndex;
+        if (extractor.hasNextInt()) {
+            deleteIndex = extractor.nextInt();
+        } else {
+            deleteIndex = -1;
+        }
+
+        if (deleteIndex != -1) {
+            Task removed = list.remove(deleteIndex);
+            if (removed != null) {
+                return "Shep says he's deleted:\n   " + removed.toString();
+            }
+        }
+        return "Invalid index for delete command.";
+    }
+
+    private static String handleTodoCommand(String inputText, TaskList list, boolean printTaskAdded) {
+        try {
+            Task currToDo = new ToDo(inputText);
+            if (list.add(currToDo)) {
+                if (printTaskAdded) {
+                    return "Shep says he's added:\n   " + list.get(list.size()).toString();
+                } else {
+                    return "";
+                }
+            } else {
+                return "Failed to add Task! Check if this task already exists.";
+            }
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
+    }
+
+    private static String handleEventCommand(String inputText, TaskList list, boolean printTaskAdded) {
+        try {
+            Task currEvent = new Event(inputText);
+            if (list.add(currEvent)) {
+                if (printTaskAdded) {
+                    return "Shep says he's added:\n   " + list.get(list.size()).toString();
+                } else {
+                    return "";
+                }
+            } else {
+                return "Failed to add Task! Check if this task already exists.";
+            }
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        } catch (DateTimeParseException e) {
+            return "Dates must be of the format yyyy-MM-dd (e.g. 2025-02-21)";
+        }
+    }
+
+    private static String handleDeadlineCommand(String inputText, TaskList list, boolean printTaskAdded) {
+        try {
+            Task currDeadline = new Deadline(inputText);
+            if (list.add(currDeadline)) {
+                if (printTaskAdded) {
+                    return "Shep says he's added:\n   " + list.get(list.size()).toString();
+                } else {
+                    return "";
+                }
+            } else {
+                return "Failed to add Task! Check if this task already exists.";
+            }
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        } catch (DateTimeParseException e) {
+            return "Dates must be of the format yyyy-MM-dd (e.g. 2025-02-21)";
+        }
+    }
+
+    private static String handleByeCommand(Scanner extractor, TaskList list, Storage storage) {
+        extractor.close();
+        storage = new Storage(list);
+        return "bye";
+    }
+
+
+
+}
