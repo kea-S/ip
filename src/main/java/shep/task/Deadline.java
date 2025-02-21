@@ -22,18 +22,18 @@ public class Deadline extends Task {
     private String getDate(String inputText) {
         int byIndex = inputText.indexOf("/by");
 
-        String deadlineDateInfo = "";
+        String formattedDate = "";
         // Check if "/by" is found
         if (byIndex != NOT_FOUND) {
             // Extract the part after "/by"
-            deadlineDateInfo = inputText.substring(byIndex + 4).trim(); // +4 to skip "/by "
+            String deadlineDateInfo = inputText.substring(byIndex + 4).trim(); // +4 to skip "/by "
             // Format the date
-            this.deadlineDate = LocalDate.parse(deadlineDateInfo).format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+            formattedDate = LocalDate.parse(deadlineDateInfo).format(DateTimeFormatter.ofPattern("MMM d yyyy"));
         } else {
             throw new IllegalArgumentException("The end of the deadline must be specified with /by (e.g. event ask Shep /by 2025-02-21)");
         }
 
-        return deadlineDateInfo;
+        return formattedDate;
     }
 
 }

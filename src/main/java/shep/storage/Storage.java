@@ -22,6 +22,9 @@ public class Storage {
     private Path filePath;
     private TaskList taskList;
 
+    /**
+     * Constructs a new {@link Storage} object. Initializes the storage by creating the necessary data directory and data file if they do not already exist. It sets the file path to the default path.
+     */
     public Storage() {
         createDataDirectory(DEFAULT_DIRECTORY);
 
@@ -30,6 +33,12 @@ public class Storage {
         this.filePath = Paths.get(DEFAULT_PATH);
     }
 
+    /**
+     * Constructs a new {@link Storage} object. Initializes the storage by creating the necessary data directory and data file if they do not already exist. It sets the file path to directory/file.
+     *
+     * @param directory the {@link String} specifying the path of the directory
+     * @param file the {@link String} specifying the name of the file in the directory
+     */
     public Storage(String directory, String file) {
         createDataDirectory(directory);
 
@@ -41,6 +50,12 @@ public class Storage {
     }
 
 
+    /**
+     * Constructs a new {@link Storage} object by reading from a {@link TaskList}. Initializes the storage by creating the necessary data directory and data file if they do not already exist. It sets the file path to the default path.
+     *
+     * @param tasklist the {@link TaskList} to be read from
+     * @see TaskList
+     */
     public Storage(TaskList tasklist) {
         this.taskList = tasklist;
 
@@ -82,7 +97,7 @@ public class Storage {
 
     }
 
-    
+
     public List<String> read() {
         List<String> fileContents = null;
 

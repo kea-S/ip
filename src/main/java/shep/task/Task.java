@@ -70,7 +70,7 @@ public abstract class Task {
         }
     }
 
-    public String getTaskName(String inputText) {
+    private String getTaskName(String inputText) {
         int firstSpaceIndex = inputText.indexOf(' ');
         int firstForwardSlash = inputText.indexOf('/');
 
