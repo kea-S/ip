@@ -51,3 +51,5 @@ public static void main(String[] args) {
 
 > [!NOTE]
 > This is super epic and fun. :+1:!
+> Shep's user profile is Jian Yang from the TV show silicon valley (Obtained from the internet)
+> The user's profile is Kurt Cobain in an Indonesian Wedding (Obtained from the internet, edited)
