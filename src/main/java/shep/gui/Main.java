@@ -1,4 +1,4 @@
-package shep.GUI;
+package shep.gui;
 
 import java.io.IOException;
 
@@ -30,4 +30,3 @@ public class Main extends Application {
         }
     }
 }
-

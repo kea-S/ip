@@ -135,9 +135,7 @@ public class TaskList extends ArrayList<Task> {
 
     public boolean checkDuplicates(Task task) {
         return this.stream()
-                .filter(currTask -> currTask.equals(task))
-                .findFirst()
-                .isPresent();
+                .anyMatch(currTask -> currTask.equals(task));
     }
 
 }

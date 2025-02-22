@@ -1,7 +1,7 @@
 package shep.command;
 
-import java.util.Scanner;
 import java.time.format.DateTimeParseException;
+import java.util.Scanner;
 
 import shep.storage.Storage;
 import shep.task.Deadline;
@@ -10,7 +10,7 @@ import shep.task.Task;
 import shep.task.TaskList;
 import shep.task.ToDo;
 
-/*
+/**
  * Represents the parser for Shep, parsing user CLI input text.
  * Contains all recognised commands recognised by Shep at its current version.
  */
@@ -44,34 +44,34 @@ public enum Commands {
         String response = "";
         try {
             switch (command) {
-                case list:
+            case list:
                 response = handleListCommand(list);
                 break;
-                case mark:
+            case mark:
                 response = handleMarkCommand(extractor, list);
                 break;
-                case unmark:
+            case unmark:
                 response = handleUnmarkCommand(extractor, list);
                 break;
-                case find:
+            case find:
                 response = handleFindCommand(extractor, list);
                 break;
-                case delete:
+            case delete:
                 response = handleDeleteCommand(extractor, list);
                 break;
-                case todo:
+            case todo:
                 response = handleTodoCommand(inputText, list, printTaskAdded);
                 break;
-                case event:
+            case event:
                 response = handleEventCommand(inputText, list, printTaskAdded);
                 break;
-                case deadline:
+            case deadline:
                 response = handleDeadlineCommand(inputText, list, printTaskAdded);
                 break;
-                case bye:
+            case bye:
                 response = handleByeCommand(extractor, list, storage);
                 break;
-                default:
+            default:
                 response = "Shep says that command is invalid man, try again.";
                 break;
             }
