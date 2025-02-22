@@ -48,7 +48,7 @@ checkstyle {
 }
 
 application {
-    mainClass.set("shep.GUI.Launcher")
+    mainClass.set("shep.gui.Launcher")
 }
 
 shadowJar {
