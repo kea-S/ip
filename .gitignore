@@ -16,4 +16,9 @@ bin/
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
 
+# Ignore class, jar, exe
+src/**/*.class
+src/**/*.jar
+src/**/*.exe
+
 *.jar
