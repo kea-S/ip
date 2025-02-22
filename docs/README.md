@@ -1,6 +1,8 @@
+# Shep
+
 ![Shep](./Ui.png)
 
-# Shep User Guide
+# User Guide
 
 Shep is a GUI task tracking app designed for text based inputs. Shep was developed as a brown-field iterative breadth first project stemming from Duke, a chatbot developed for NUS's intro to Software Engineering Course. It's named after a Daft Punk Character.
 
@@ -94,5 +96,10 @@ Shep says he's added:
    [E][ ] Download Shep (from: Jun 1 2025 by: Jun 2 2025)
 ```
 
-> [!NOTE]
-> This is super epic and fun. :+1:!
+#### bye
+Saves Shep's tasklist and exits the application.
+*bye*
+
+```
+Exits Shep
+```
