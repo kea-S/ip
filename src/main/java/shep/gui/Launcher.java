@@ -1,4 +1,4 @@
-package shep.GUI;
+package shep.gui;
 
 import javafx.application.Application;
 

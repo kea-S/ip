@@ -11,7 +11,7 @@ public class CommandsTest {
 
     @Test
     public void executeCommand_unknownCommand_statesUnkown() {
-        String expectedOutput = ("\nShep says that command is invalid man, try again.\n");
+        String expectedOutput = "Shep says that command is invalid man, try again.";
 
         String actualOutput = Commands.executeCommand("remind", new TaskList(), false, null);
 

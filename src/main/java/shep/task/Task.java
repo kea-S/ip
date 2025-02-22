@@ -10,14 +10,14 @@ import shep.storage.Storage;
  */
 public abstract class Task {
     private String taskName;
-    private boolean marked;
+    private boolean isMarked;
     private String inputText;
     private String saveFormat;
 
     public Task(String inputText) {
-        this.marked = false;
+        this.isMarked = false;
         this.inputText = inputText;
-        this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
+        this.saveFormat = this.inputText + " | " + Boolean.toString(isMarked);
         this.taskName = this.getTaskName(inputText);
     }
 
@@ -27,8 +27,8 @@ public abstract class Task {
      * @return true if succesfully marked, else false
      */
     public boolean markAsDone() {
-        this.marked = true;
-        this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
+        this.isMarked = true;
+        this.saveFormat = this.inputText + " | " + Boolean.toString(isMarked);
 
         return true;
     }
@@ -36,18 +36,18 @@ public abstract class Task {
     /**
      * Marks this task as not done.
      * 
-     * @return true if succesfully marked, else false
+     * @return true if successfully marked, else false
      */
     public boolean unmark() {
-        this.marked = false;
-        this.saveFormat = this.inputText + " | " + Boolean.toString(marked);
+        this.isMarked = false;
+        this.saveFormat = this.inputText + " | " + Boolean.toString(isMarked);
 
         return true;
     }
 
     @Override
     public String toString() {
-        String checkbox = this.marked ? "[X] " : "[ ] ";
+        String checkbox = this.isMarked ? "[X] " : "[ ] ";
 
         return checkbox + this.taskName;
     }
@@ -66,7 +66,6 @@ public abstract class Task {
             fw.close();
         } catch (IOException e) {
             System.out.println("Couldn't save file: " + this.saveFormat);
-            e.printStackTrace();
         }
     }
 
