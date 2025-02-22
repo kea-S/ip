@@ -36,7 +36,16 @@ public class TaskList extends ArrayList<Task> {
 
     @Override
     public Task get(int index) {
-        return super.get(index - 1);
+        Task getResult = null;
+        try {
+            getResult = super.get(index - 1);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Check that the index is in range");
+        }
+
+        assert getResult != null;
+
+        return getResult;
     }
 
     @Override
@@ -51,7 +60,17 @@ public class TaskList extends ArrayList<Task> {
 
     @Override
     public Task remove(int index) {
-        return super.remove(index - 1);
+        Task removeResult = null;
+
+        try {
+            removeResult = super.remove(index - 1);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Check that the index is in range");
+        }
+
+        assert removeResult != null;
+
+        return removeResult;
     }
 
     /**

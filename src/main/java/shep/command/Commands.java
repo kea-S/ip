@@ -105,9 +105,14 @@ public enum Commands {
             markIndex = -1;
         }
 
-        if (list.markTask(markIndex)) {
-            return "Shep says he's marked:\n   " + list.get(markIndex).toString();
+        try {
+            if (list.markTask(markIndex)) {
+                return "Shep says he's marked:\n   " + list.get(markIndex).toString();
+            }
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
         }
+
         return "Invalid index for mark command.";
     }
 
@@ -119,8 +124,12 @@ public enum Commands {
             unmarkIndex = -1;
         }
 
-        if (list.unmarkTask(unmarkIndex)) {
-            return "Shep says he's unmarked:\n   " + list.get(unmarkIndex).toString();
+        try {
+            if (list.unmarkTask(unmarkIndex)) {
+                return "Shep says he's unmarked:\n   " + list.get(unmarkIndex).toString();
+            }
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
         }
         return "Invalid index for unmark command.";
     }
@@ -141,11 +150,15 @@ public enum Commands {
             deleteIndex = -1;
         }
 
-        if (deleteIndex != -1) {
-            Task removed = list.remove(deleteIndex);
-            if (removed != null) {
-                return "Shep says he's deleted:\n   " + removed.toString();
+        try {
+            if (deleteIndex != -1) {
+                Task removed = list.remove(deleteIndex);
+                if (removed != null) {
+                    return "Shep says he's deleted:\n   " + removed.toString();
+                }
             }
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
         }
         return "Invalid index for delete command.";
     }
@@ -210,7 +223,5 @@ public enum Commands {
         storage = new Storage(list);
         return "bye";
     }
-
-
 
 }
